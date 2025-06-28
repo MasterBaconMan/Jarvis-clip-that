@@ -1,15 +1,9 @@
 import speech_recognition as sr
-import pyttsx3
 
 
 r = sr.Recognizer()
 
-def SpeakText(command):
-    
-    # Initialize the engine
-    engine = pyttsx3.init()
-    engine.say(command) 
-    engine.runAndWait()
+mytext = "Starting Up"
 
 # Loop infinitely for user to
 # speak
@@ -32,10 +26,10 @@ while(1):
             audio2 = r.listen(source2)
             
             # Using google to recognize audio
-            MyText = r.recognize_google(audio2)
-            MyText = MyText.lower()
+            mytext = r.recognize_google(audio2)
+            mytext = mytext.lower()
 
-            print(MyText)
+            print(mytext)
             
     except sr.RequestError as e:
         print("Could not request results")
