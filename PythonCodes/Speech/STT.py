@@ -7,6 +7,8 @@ mytext = "Starting Up"
 
 # Loop infinitely for user to
 # speak
+with open("PythonCodes\\Speech\\text.txt", "wt") as f:
+    f.write("starting up")
 
 while(1):    
     
@@ -31,6 +33,10 @@ while(1):
 
             print(mytext)
             
+            # writes mytext into the text file to be read by jarvis
+            with open("PythonCodes\\Speech\\text.txt", "wt") as f:
+                f.write(mytext)
+
     except sr.RequestError as e:
         print("Could not request results")
         

@@ -1,7 +1,9 @@
+import time
+def readfile():
+    file = open("PythonCodes\\Speech\\text.txt", "rt")
+    return file.readlines()
 
+print(readfile())
 
-#import STT
-
-
-
-#print(STT.mytext)
+while(1):
+    print(readfile())
