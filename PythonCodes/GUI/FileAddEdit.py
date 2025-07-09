@@ -1,21 +1,14 @@
-import tkinter as tk
+import pygame
 
+pygame.init() #initializes pygame
+win = pygame.display.set_mode((500, 500))
 
-def openfileGUI():
-    fileswindow = tk.Toplevel(root)
-    fileswindow.title("Files")
+pygame.display.set_caption("File Add/Edit")
 
-    clipbutton = tk.Button(fileswindow, text="Clip", command=lambda:openeditor)
+#main loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False #set running to False to exit the main loop
 
-
-def openeditor(title):
-    editor_window = tk.Toplevel(root)
-    editor_window.title(title)
-
-
-root = tk.Tk()
-button = tk.Button(root, text="Add/Edit Files", command=openfileGUI)
-
-button.pack()
-
-root.mainloop()
