@@ -37,7 +37,7 @@ while(1):
         wordlist = wordlist + (words.split(" "))
         
 
-        # Maybe turn on a light on raspberry pi here?
+        # Maybe turn on a light on raspberry pi here? Like when jarvs' name is called
 
         # Testing code
         if "quit" in wordlist:
