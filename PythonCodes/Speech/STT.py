@@ -5,10 +5,22 @@ r = sr.Recognizer()
 
 mytext = "Starting Up"
 
-# Loop infinitely for user to
-# speak
+
+# Microphoen selection code, default 0. Will need to be a setting in the GUI. This is an example listing all audio related devices. Will need to be refined in the future. Temporary for testing
+for index, name in enumerate(sr.Microphone.list_microphone_names()):
+    print(f"{index}: {name}")
+
+# This is Jacob's specific number, will be replaced by a variable later
+mic_index = 2
+
+
+
 with open("PythonCodes\\Speech\\text.txt", "wt") as f:
     f.write("starting up")
+
+# Loop infinitely for user to
+# speak
+
 
 while(1):    
     
@@ -17,7 +29,7 @@ while(1):
     try:
         
         # use the microphone as source for input.
-        with sr.Microphone() as source2:
+        with sr.Microphone(device_index=mic_index) as source2:
             
             # wait for a second to let the recognizer
             # adjust the energy threshold based on
