@@ -12,7 +12,7 @@ rect_color_passive = (110, 110, 110) #default color for text box when not select
 #fonts
 text_font = pygame.font.SysFont("Arial", 15)
 
-class TextBox: #reuseable text box class
+class TextBox: #text box class
     def __init__(self, x, y, w, h, font):
         self.rect = pygame.Rect(x, y, w, h)
         self.color_active = rect_color_active
