@@ -8,7 +8,7 @@ pygame.display.set_caption("File Add/Edit") #GUI title
 background_color = (150, 150, 150) #sets background to gray
 text_color = (255, 255, 255) 
 rect_color_active = (80, 80, 80) #color for text box when selected
-rect_color_passive = (100, 110, 100) #default color for text box when not selected
+rect_color_passive = (110, 110, 110) #default color for text box when not selected
 #fonts
 text_font = pygame.font.SysFont("Arial", 20)
 
@@ -35,6 +35,8 @@ class TextBox: #text box class
                 self.inputtext = self.inputtext[0:-1]
             else:
                 self.inputtext += event.unicode #append characters to text input/box
+
+        #if event.type == pygame.
     
     def draw_rect(self, surface): #draws shape for text box and aligns with text input
         pygame.draw.rect(surface, (160, 160, 160), self.rect, 0, border_radius=5) #bg fill
@@ -66,7 +68,27 @@ textbox2 = TextBox(10, 80, 200, 32, text_font)
 textbox3 = TextBox(10, 120, 200, 32, text_font)
 
 textboxes = [textbox1, textbox2, textbox3]
+
+#add text box button
+button_size = 30
+button_x = 10
+button_y = textbox3.rect.bottom + 10
+button_rect = pygame.Rect(button_x, button_y, button_size, button_size)
+button_color = (110, 110, 110)
+
+def draw_button(surface, rect, color, symbol="+"): #draw button function
+    pygame.draw.rect(surface, color, rect, border_radius=5)
+    font = pygame.font.SysFont("Arial", 20)
+    text_surf = font.render(symbol, True, (0, 0, 0))
+    text_rect = text_surf.get_rect(center=rect.center)
+    surface.blit(text_surf, text_rect)
+    #manually centers the symbol
+    #...
     
+#edit button
+
+
+#draw text
 def draw_text(text, font, text_color, x, y): #function for text/label
     img = font.render(text, True, text_color)
     screen.blit(img, (x, y)) #copies/draws string into image
@@ -81,11 +103,21 @@ while running:
     for box in textboxes:
         box.draw_rect(screen)
 
+    draw_button(screen, button_rect, button_color)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False #exits the main loop
         
         for box in textboxes:
             box.handle_event(event)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                last_y = textboxes[-1].rect.bottom + 10
+                if last_y + 32 < screen.get_height() - 10:
+                    new_box = TextBox(10, last_y, 200, 32, text_font)
+                    textboxes.append(new_box)
+                    button_rect.y = new_box.rect.bottom + 10
             
     pygame.display.update()
