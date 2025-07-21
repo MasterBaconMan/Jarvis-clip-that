@@ -139,5 +139,11 @@ while running:
                 if box.edit_button.collidepoint(event.pos):
                     open_text_editor()
 
+    # quit function
+    file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
+    quit = file.readlines()
+    if "quit" in quit:
+        break
+
             
     pygame.display.update()

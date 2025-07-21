@@ -42,7 +42,8 @@ while(1):
         # Testing code
         if "quit" in wordlist:
             print("quit") 
-            stop()
+            with open("PythonCodes\\Jarvis\\Status.txt", "wt") as f:
+                f.write("quit")
             break
 
 

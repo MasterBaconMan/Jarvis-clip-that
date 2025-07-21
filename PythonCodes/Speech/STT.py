@@ -11,7 +11,7 @@ for index, name in enumerate(sr.Microphone.list_microphone_names()):
     print(f"{index}: {name}")
 
 # This is Jacob's specific number, will be replaced by a variable later
-mic_index = 2
+mic_index = 1
 
 
 
@@ -48,6 +48,12 @@ while(1):
             # writes mytext into the text file to be read by jarvis
             with open("PythonCodes\\Speech\\text.txt", "wt") as f:
                 f.write(mytext)
+
+            # quit function
+            file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
+            quit = file.readlines()
+            if "quit" in quit:
+                break
 
     except sr.RequestError as e:
         print("Could not request results")
