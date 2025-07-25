@@ -14,21 +14,35 @@ rect_color_passive = (110, 110, 110) #default color for text box when not select
 #fonts
 text_font = pygame.font.SysFont("Arial", 20)
 #--------tkinter text editor-----------
-def open_text_editor():
+def open_text_editor(initial_text):
+    edited_text = initial_text
+
+    def save_and_close():
+        nonlocal edited_text
+        edited_text = text_area.get("1.0", tk.END).strip()
+        root.destroy()
+
     root = tk.Tk()
     root.title("Text Editor")
     root.geometry("400x300")
 
     text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, font=("Arial", 12))
     text_area.pack(expand=True, fill='both')
+    text_area.insert(tk.END, initial_text)
+
+    save_button = tk.Button(root, text="Save", command=save_and_close)
+    save_button.pack(pady=5)
 
     root.mainloop()
+    return edited_text
 
 #---------pygame text box---------------
 class TextBox: #text box class
     def __init__(self, x, y, w, h, font):
         self.rect = pygame.Rect(x, y, w, h)
         self.edit_button = pygame.Rect(x + w + 5, y, 30, h) #edit button
+        self.delete_button = pygame.Rect(x + w + 40, y, 30, h)  #delete "X" button
+
         self.color_active = rect_color_active
         self.color_passive = rect_color_passive
         self.color = self.color_passive
@@ -71,8 +85,14 @@ class TextBox: #text box class
             text_rect.x = self.rect.x + 5
 
         surface.blit(text_surface, text_rect.topleft)
-
         surface.set_clip(previous_clip)
+
+        #DELETE BUTTON
+        pygame.draw.rect(surface, (110, 110, 110), self.delete_button, border_radius=5)
+        x_font = pygame.font.SysFont("Arial", 20)
+        x_text = x_font.render("X", True, (255, 255, 255))
+        x_rect = x_text.get_rect(center=self.delete_button.center)
+        surface.blit(x_text, x_rect)
 
         #EDIT BUTTON
         pygame.draw.rect(surface, (110, 110, 110), self.edit_button, border_radius=5)
@@ -137,7 +157,21 @@ while running:
 
             for i, box in enumerate(textboxes):
                 if box.edit_button.collidepoint(event.pos):
-                    open_text_editor()
+                    updated_text = open_text_editor(box.inputtext)
+                    box.inputtext = updated_text
+
+                if box.delete_button.collidepoint(event.pos):
+                    del textboxes[i]
+                    #re-layout remaining textboxes
+                    y = 40
+                    for tb in textboxes:
+                        tb.rect.y = y
+                        tb.edit_button.y = y
+                        tb.delete_button.y = y
+                        y += 40  # spacing
+            #update add button position
+            button_rect.y = textboxes[-1].rect.bottom + 10 if textboxes else 40
+            break  # exit loop early since list changed
 
     # quit function
     file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
