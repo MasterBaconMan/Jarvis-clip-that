@@ -1,4 +1,5 @@
-
+import subprocess
+import clip
 
 
 # Function to read from speech to text file
@@ -45,6 +46,29 @@ while(1):
             with open("PythonCodes\\Jarvis\\Status.txt", "wt") as f:
                 f.write("quit")
             break
+
+        
+        # Code for start and stop recording, runs start and stop recording function in clip file
+        if ("recording") in wordlist:
+            if "stop" in wordlist:
+                print("Stop Recording Jarvis file")
+                clip.stop_recording()
+                wordlist = []
+            elif "start" in wordlist:
+                print("Start Recording Jarvis file")
+                clip.start_recording()
+                wordlist = []
+
+
+
+
+        # Runs clipping function in clip python file
+        if "clip" in wordlist:
+            print("clip")
+            clip.clip()
+            wordlist = []
+        
+
 
 
         #for testing

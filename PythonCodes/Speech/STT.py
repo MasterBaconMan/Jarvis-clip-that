@@ -23,7 +23,11 @@ with open("PythonCodes\\Speech\\text.txt", "wt") as f:
 
 
 while(1):    
-    
+    # quit function
+    file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
+    quit = file.readlines()
+    if "quit" in quit:
+        break
     # Exception handling to handle
     # exceptions at the runtime
     try:
@@ -49,11 +53,7 @@ while(1):
             with open("PythonCodes\\Speech\\text.txt", "wt") as f:
                 f.write(mytext)
 
-            # quit function
-            file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
-            quit = file.readlines()
-            if "quit" in quit:
-                break
+
 
     except sr.RequestError as e:
         print("Could not request results")
