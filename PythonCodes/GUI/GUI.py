@@ -47,15 +47,21 @@ dropdown.grid(row=3, column=2, pady=10)
 def confirmMic():
     user_input = selected_option.get()
     currentMic.config(text=f"Current Microphone: {user_input}")
+    with open("settings.txt", "a") as file:
+      file.write(user_input + "\n")
     
 
 def confirmName():
   user_input = entry.get()
   currentName.config(text=f"Current Name: {user_input}")
+  with open("settings.txt", "a") as file:
+    file.write(user_input + "\n")
 
 def confirmTime():
   user_input = timeEntry.get()
   currentTime.config(text=f"Current Time: {user_input}")
+  with open("settings.txt", "a") as file:
+    file.write(user_input + "\n")
 
 #every button is defined here
 nameButton = Button(home, text="Confirm", command=confirmName)
@@ -66,5 +72,6 @@ micButton.grid(row=3, column=3, pady=10)
 
 timeButton = Button(home, text="Confirm", command=confirmTime)
 timeButton.grid(row=2, column=3, pady=0, padx=0)
+
 
 home.mainloop()
