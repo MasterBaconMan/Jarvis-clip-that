@@ -1,8 +1,10 @@
 import pygame
 import tkinter as tk
 from tkinter import scrolledtext
+import pyautogui
 
 pygame.init() #initializes pygame
+pygame.key.set_repeat(300, 50) #for repeating characters when key is held down
 screen = pygame.display.set_mode((650, 500))
 pygame.display.set_caption("File Add/Edit") #GUI title
 
@@ -22,19 +24,41 @@ def open_text_editor(initial_text):
         edited_text = text_area.get("1.0", tk.END).strip()
         root.destroy()
 
+    def def run_macro_script():
+        script = text_area.get("1.0", tk.END).strip()
+        root.destroy()
+        macros = extract_macros(script)
+        voice_command = listen_for_command()  # get voice input
+        if voice_command.startswith("run "):
+            macro_name = voice_command[4:].strip()
+            run_macro_by_name(macro_name, macros)
+        else:
+            print("Unrecognized voice command:", voice_command)
+
     root = tk.Tk()
     root.title("Text Editor")
-    root.geometry("400x300")
+    root.geometry("700x500")
+
+    toolbar = tk.Frame(root, bg="#e0e0e0", pady=5, padx=8)
+    toolbar.pack(side="top", fill="x")
+
+    save_button = tk.Button(toolbar, text="Save", command=save_and_close)
+    save_button.pack(side="left", padx=5)
+
+    macro_button = tk.Button(toolbar, text="Run Macro", command=run_macro)
+    macro_button.pack(side="left", padx=5)
 
     text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, font=("Arial", 12))
-    text_area.pack(expand=True, fill='both')
+    text_area.pack(expand=True, fill='both', padx=10, pady=10)
     text_area.insert(tk.END, initial_text)
-
-    save_button = tk.Button(root, text="Save", command=save_and_close)
-    save_button.pack(pady=5)
 
     root.mainloop()
     return edited_text
+
+#extracts macros from user input
+def extract_macros():
+
+
 
 #---------pygame text box---------------
 class TextBox: #text box class
@@ -149,7 +173,12 @@ while running:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if button_rect.collidepoint(event.pos):
-                last_y = textboxes[-1].rect.bottom + 10
+                start_y = 40
+                if textboxes:
+                    last_y = textboxes[-1].rect.bottom + 10
+                else:
+                    last_y = start_y
+
                 if last_y + 32 < screen.get_height() - 10:
                     new_box = TextBox(10, last_y, 200, 32, text_font)
                     textboxes.append(new_box)
@@ -178,6 +207,5 @@ while running:
     quit = file.readlines()
     if "quit" in quit:
         break
-
             
     pygame.display.update()
