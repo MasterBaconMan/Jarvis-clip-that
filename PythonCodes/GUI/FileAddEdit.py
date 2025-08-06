@@ -2,6 +2,7 @@ import pygame
 import tkinter as tk
 from tkinter import scrolledtext
 import pyautogui
+import time
 
 pygame.init() #initializes pygame
 pygame.key.set_repeat(300, 50) #for repeating characters when key is held down
@@ -15,7 +16,9 @@ rect_color_active = (80, 80, 80) #color for text box when selected
 rect_color_passive = (110, 110, 110) #default color for text box when not selected
 #fonts
 text_font = pygame.font.SysFont("Arial", 20)
+
 #--------tkinter text editor-----------
+macros = {}
 def open_text_editor(initial_text):
     edited_text = initial_text
 
@@ -24,16 +27,11 @@ def open_text_editor(initial_text):
         edited_text = text_area.get("1.0", tk.END).strip()
         root.destroy()
 
-    def def run_macro_script():
+    def run_macro():
         script = text_area.get("1.0", tk.END).strip()
         root.destroy()
-        macros = extract_macros(script)
-        voice_command = listen_for_command()  # get voice input
-        if voice_command.startswith("run "):
-            macro_name = voice_command[4:].strip()
-            run_macro_by_name(macro_name, macros)
-        else:
-            print("Unrecognized voice command:", voice_command)
+        time.sleep(2)
+        pyautogui.write(script)
 
     root = tk.Tk()
     root.title("Text Editor")
@@ -55,11 +53,6 @@ def open_text_editor(initial_text):
     root.mainloop()
     return edited_text
 
-#extracts macros from user input
-def extract_macros():
-
-
-
 #---------pygame text box---------------
 class TextBox: #text box class
     def __init__(self, x, y, w, h, font):
@@ -72,6 +65,7 @@ class TextBox: #text box class
         self.color = self.color_passive
         self.font = font
         self.inputtext = ""
+        self.macro_text = ""
         self.active = False
 
     def handle_event(self, event): 
@@ -186,8 +180,8 @@ while running:
 
             for i, box in enumerate(textboxes):
                 if box.edit_button.collidepoint(event.pos):
-                    updated_text = open_text_editor(box.inputtext)
-                    box.inputtext = updated_text
+                    updated_macro = open_text_editor(box.macro_text)
+                    box.macro_text = updated_macro
 
                 if box.delete_button.collidepoint(event.pos):
                     del textboxes[i]
