@@ -2,6 +2,12 @@
 from tkinter import *
 from tkinter import ttk
 
+# Function to read from speech to text file
+
+#def readfile():
+#    file = open("PythonCodes\\Speech\\text.txt", "rt")
+#    return file.readlines()
+
 # set up GUI window
 home = Tk()
 home.title("Jarvis Home")
@@ -14,19 +20,19 @@ drop_down_options = ["", "Mic 1", "Mic 2", "Mic 3", "Mic 4"]
 labelName = Label(home, text = "Input Name:", font=("Arial", 10))
 labelName.grid(row=1, column=0, pady=0, padx=0)
 
-currentName = Label(home, text = "Current Name: Jarvis", font=("Arial", 10))
+currentName = Label(home, text = "", font=("Arial", 10))
 currentName.grid(row=1, column=4, pady=0, padx=0)
 
-inputTime = Label(home, text = "Input Clip Time:", font=("Arial", 10))
+inputTime = Label(home, text = "Input WebSocket Server password:", font=("Arial", 10))
 inputTime.grid(row=2, column=0, pady=5, padx=0)
 
-currentTime = Label(home, text = "Current Time: 0.00", font=("Arial", 10))
+currentTime = Label(home, text = "", font=("Arial", 10))
 currentTime.grid(row=2, column=4, pady=5, padx=0)
 
 labelMic = Label(home, text = "Select Microphone", font=("Arial", 10))
 labelMic.grid(row=3, column=0, pady=0, padx=0)
 
-currentMic = Label(home, text = "Current Microphone:", font=("Arial", 10))
+currentMic = Label(home, text = "", font=("Arial", 10))
 currentMic.grid(row=3, column=4, pady=0, padx=0)
 
 #Every entry is defined here
@@ -45,23 +51,35 @@ dropdown.grid(row=3, column=2, pady=10)
 
 #every current function that each button does
 def confirmMic():
-    user_input = selected_option.get()
-    currentMic.config(text=f"Current Microphone: {user_input}")
-    with open("settings.txt", "a") as file:
-      file.write(user_input + "\n")
+  user_input = selected_option.get()
+  currentMic.config(text="Saved!")
+  with open("settings.txt", "r") as file:
+    lines = file.readlines()
+  lineToPrint = 2
+  lines[lineToPrint] = user_input + "\n"
+  with open("settings.txt", "w") as file:
+    file.writelines(lines)
     
 
 def confirmName():
   user_input = entry.get()
-  currentName.config(text=f"Current Name: {user_input}")
-  with open("settings.txt", "a") as file:
-    file.write(user_input + "\n")
+  currentName.config(text="Saved!")
+  with open("settings.txt", "r") as file:
+    lines = file.readlines()
+  lineToPrint = 0
+  lines[lineToPrint] = user_input + "\n"
+  with open("settings.txt", "w") as file:
+    file.writelines(lines)
 
 def confirmTime():
   user_input = timeEntry.get()
-  currentTime.config(text=f"Current Time: {user_input}")
-  with open("settings.txt", "a") as file:
-    file.write(user_input + "\n")
+  currentTime.config(text="Saved!")
+  with open("settings.txt", "r") as file:
+    lines = file.readlines()
+  lineToPrint = 1
+  lines[lineToPrint] = user_input + "\n"
+  with open("settings.txt", "w") as file:
+    file.writelines(lines)
 
 #every button is defined here
 nameButton = Button(home, text="Confirm", command=confirmName)
