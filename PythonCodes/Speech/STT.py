@@ -7,11 +7,19 @@ mytext = "Starting Up"
 
 
 # Microphoen selection code, default 0. Will need to be a setting in the GUI. This is an example listing all audio related devices. Will need to be refined in the future. Temporary for testing
-for index, name in enumerate(sr.Microphone.list_microphone_names()):
-    print(f"{index}: {name}")
+# for index, name in enumerate(sr.Microphone.list_microphone_names()):
+#     print(f"{index}: {name}")
 
-# This is Jacob's specific number, will be replaced by a variable later
-mic_index = 1
+# Microphone setting
+def micSetting():
+    file = open("PythonCodes\\GUI\\Settings.txt")
+    settings = file.readlines()
+    mic = settings[2]
+    mic = mic.lower()
+    return mic
+
+# This is the chosen mic by the user
+mic_index = micSetting
 
 
 
@@ -28,6 +36,10 @@ while(1):
     quit = file.readlines()
     if "quit" in quit:
         break
+
+    # Updates the microphone setting if it is changed
+    mic_index = micSetting()
+
     # Exception handling to handle
     # exceptions at the runtime
     try:

@@ -5,9 +5,16 @@ HOST = "localhost"
 global PORT
 PORT = 4455
 
+def passwordSetting():
+    file = open("PythonCodes\\GUI\\Settings.txt")
+    settings = file.readlines()
+    password = settings[2]
+    password = password.lower()
+    return password
+
 global PASSWORD
 # This can be changed by the user
-PASSWORD = "0vP5cPOtX4MmU8nx"
+PASSWORD = passwordSetting()
 
 
 # Cliptime has to be changed in OBS

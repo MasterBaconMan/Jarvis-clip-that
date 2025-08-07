@@ -8,6 +8,15 @@ def readfile():
     return file.readlines()
 
 
+
+# Function to read name from settings file
+def nameSetting():
+    file = open("PythonCodes\\GUI\\Settings.txt")
+    settings = file.readlines()
+    name = settings[0]
+    name = name.lower()
+    return name
+
 def stop():
     # stop function placeholder
     print("STOP!")
@@ -16,7 +25,7 @@ def stop():
 # variable setup
 wordlist = []
 previous = ""
-
+name = ""
 
 while(1):
     # Prepares the words from the textfile into a useable format.
@@ -31,8 +40,11 @@ while(1):
     if len(wordlist) > 10:
         wordlist = []
 
+    # Changes the name in the loop if name is updated
+    name = nameSetting()
+    
     # this if statement runs if jarvis is in words, in the wordlist, and there is a new message
-    if ((words.find("jarvis") >= 0) or "jarvis" in wordlist) and words != previous:
+    if ((words.find(name) >= 0) or name in wordlist) and words != previous:
         
         # adds words to the wordlist
         wordlist = wordlist + (words.split(" "))
