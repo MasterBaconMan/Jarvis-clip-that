@@ -1,6 +1,29 @@
-# import nesesarry librairies 
+# import nesesarry librairies \
+import subprocess
+import speech_recognition as sr
 from tkinter import *
 from tkinter import ttk
+
+miclist = {}
+drop_down_options = []
+
+for index, name in enumerate(sr.Microphone.list_microphone_names()):
+  miclist.update({index:name})
+
+temp = []
+res = dict()
+
+for key, val in miclist.items():
+  if val not in temp:
+    temp.append(val)
+    res[key] = val
+
+search_word = "Microphone"
+filter_out_word = "Speakers"
+
+filtered_mics = {key: value for key, value in res.items() if (search_word in value) and (filter_out_word not in value)}
+
+print(str(filtered_mics))
 
 # Function to read from speech to text file
 
@@ -14,7 +37,11 @@ home.title("Jarvis Home")
 home.geometry("600x400")
 
 # placeholder for dropdown options, will be able to select 
-drop_down_options = ["", "Mic 1", "Mic 2", "Mic 3", "Mic 4"]
+for key,item in filtered_mics.items():
+  drop_down_options.append(f"{key} : {item}")
+
+
+# drop_down_options = ["", "Mic 1", "Mic 2", "Mic 3", "Mic 4"]
 
 #Every label is defined here
 labelName = Label(home, text = "Input Name:", font=("Arial", 10))
@@ -53,33 +80,39 @@ dropdown.grid(row=3, column=2, pady=10)
 def confirmMic():
   user_input = selected_option.get()
   currentMic.config(text="Saved!")
-  with open("settings.txt", "r") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "r") as file:
     lines = file.readlines()
+    file.close()
   lineToPrint = 2
   lines[lineToPrint] = user_input + "\n"
-  with open("settings.txt", "w") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "w") as file:
     file.writelines(lines)
+    file.close()
     
 
 def confirmName():
   user_input = entry.get()
   currentName.config(text="Saved!")
-  with open("settings.txt", "r") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "r") as file:
     lines = file.readlines()
+    file.close()
   lineToPrint = 0
   lines[lineToPrint] = user_input + "\n"
-  with open("settings.txt", "w") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "w") as file:
     file.writelines(lines)
+    file.close()
 
 def confirmTime():
   user_input = timeEntry.get()
   currentTime.config(text="Saved!")
-  with open("settings.txt", "r") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "r") as file:
     lines = file.readlines()
+    file.close()
   lineToPrint = 1
   lines[lineToPrint] = user_input + "\n"
-  with open("settings.txt", "w") as file:
+  with open("PythonCodes\\GUI\\Settings.txt", "w") as file:
     file.writelines(lines)
+    file.close()
 
 #every button is defined here
 nameButton = Button(home, text="Confirm", command=confirmName)
@@ -91,5 +124,15 @@ micButton.grid(row=3, column=3, pady=10)
 timeButton = Button(home, text="Confirm", command=confirmTime)
 timeButton.grid(row=2, column=3, pady=0, padx=0)
 
+# Quits if jarvis quit function is called
+file = open("PythonCodes\\Jarvis\\Status.txt", "rt")
+quit = file.readlines()
+if "quit" in quit:
+  home.destroy()
+
+
+# subprocess and button needed to open macro gui
+# p4 = subprocess.Popen(["python", "PythonCodes/GUI/FileAddEdit.py"])
+# p4.wait()
 
 home.mainloop()

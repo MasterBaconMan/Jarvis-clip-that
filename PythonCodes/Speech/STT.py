@@ -16,10 +16,15 @@ def micSetting():
     settings = file.readlines()
     mic = settings[2]
     mic = mic.lower()
+    mic = mic.split(":")
+    mic = mic[0]
+    mic = mic.replace(" ", "")
+    mic = int(mic)
     return mic
 
 # This is the chosen mic by the user
-mic_index = micSetting
+mic_index = micSetting()
+
 
 
 
@@ -39,13 +44,19 @@ while(1):
 
     # Updates the microphone setting if it is changed
     mic_index = micSetting()
+    print(mic_index)
+    try:
+        if mic_index.isdigit() == False:
+            mic_index = None
+    except:
+        pass
 
     # Exception handling to handle
     # exceptions at the runtime
     try:
         
         # use the microphone as source for input.
-        with sr.Microphone(device_index=mic_index) as source2:
+        with sr.Microphone(device_index = mic_index) as source2:
             
             # wait for a second to let the recognizer
             # adjust the energy threshold based on

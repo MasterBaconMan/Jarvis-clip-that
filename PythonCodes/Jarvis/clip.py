@@ -8,8 +8,8 @@ PORT = 4455
 def passwordSetting():
     file = open("PythonCodes\\GUI\\Settings.txt")
     settings = file.readlines()
-    password = settings[2]
-    password = password.lower()
+    password = settings[1]
+    password = password.replace("\n", "")
     return password
 
 global PASSWORD

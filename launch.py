@@ -7,6 +7,7 @@ with open("PythonCodes\\Jarvis\\Status.txt", "wt") as f:
 install_obs = subprocess.run(["pip","install","obs-websocket-py"])
 install_audio = subprocess.run(["pip","install","pyaudio"])
 install_pygame = subprocess.run(["pip", "install", "pygame"])
+install_pyautogui = subprocess.run(["pip", "install", "pyautogui"])
 
 p1 = subprocess.Popen(["python",  "PythonCodes/Speech/STT.py"])
 p2 = subprocess.Popen(["python", "PythonCodes/Jarvis/Jarvis.py"])
