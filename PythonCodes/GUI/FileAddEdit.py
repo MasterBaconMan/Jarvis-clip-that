@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 import pyautogui
 import time
+import json
 
 pygame.init() #initializes pygame
 pygame.key.set_repeat(300, 50) #for repeating characters when key is held down
@@ -19,8 +20,10 @@ text_font = pygame.font.SysFont("Arial", 20)
 
 #--------tkinter text editor-----------
 macros = {}
-def open_text_editor(initial_text):
+def open_text_editor(initial_text, initial_record):
     edited_text = initial_text
+    typing_record = initial_record[:]  # copy so we don't overwrite original until saved
+    last_time = time.time()
 
     def save_and_close():
         nonlocal edited_text
@@ -28,10 +31,29 @@ def open_text_editor(initial_text):
         root.destroy()
 
     def run_macro():
-        script = text_area.get("1.0", tk.END).strip()
         root.destroy()
         time.sleep(2)
-        pyautogui.write(script)
+        for key, delay in typing_record:
+            time.sleep(delay)
+            if key == '\n':
+                pyautogui.press('enter')
+            elif key == '\b':
+                pyautogui.press('backspace')
+            else:
+                pyautogui.write(key)
+    
+    def on_key(event):
+        nonlocal last_time
+        now = time.time()
+        delay = now - last_time
+        last_time = now
+
+        if event.keysym == "backspace":
+            typing_record.append(('\b', delay))
+        elif event.keysym == "return":
+            typing_record.append(('\n', delay))
+        elif event.char:
+            typing_record.append((event.char, delay))
 
     root = tk.Tk()
     root.title("Text Editor")
@@ -50,8 +72,10 @@ def open_text_editor(initial_text):
     text_area.pack(expand=True, fill='both', padx=10, pady=10)
     text_area.insert(tk.END, initial_text)
 
+    text_area.bind("<Key>", on_key)
+
     root.mainloop()
-    return edited_text
+    return edited_text, typing_record
 
 #---------pygame text box---------------
 class TextBox: #text box class
@@ -67,6 +91,8 @@ class TextBox: #text box class
         self.inputtext = ""
         self.macro_text = ""
         self.active = False
+
+        self.typing_record = []
 
     def handle_event(self, event): 
         if event.type == pygame.MOUSEBUTTONDOWN: #changes color of text box outline, indicating if it selecting or not
@@ -180,8 +206,9 @@ while running:
 
             for i, box in enumerate(textboxes):
                 if box.edit_button.collidepoint(event.pos):
-                    updated_macro = open_text_editor(box.macro_text)
+                    updated_macro, updated_record = open_text_editor(box.macro_text, box.typing_record)
                     box.macro_text = updated_macro
+                    box.typing_record = updated_record
 
                 if box.delete_button.collidepoint(event.pos):
                     del textboxes[i]
