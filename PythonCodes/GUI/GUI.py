@@ -4,12 +4,14 @@ import speech_recognition as sr
 from tkinter import *
 from tkinter import ttk
 
+# creation of the miclist
 miclist = {}
 drop_down_options = []
 
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
   miclist.update({index:name})
 
+# sorts out any device that isn't a mircophone and also gets rid of microphone's with speakers
 temp = []
 res = dict()
 
@@ -40,9 +42,6 @@ home.geometry("600x400")
 for key,item in filtered_mics.items():
   drop_down_options.append(f"{key} : {item}")
 
-
-# drop_down_options = ["", "Mic 1", "Mic 2", "Mic 3", "Mic 4"]
-
 #Every label is defined here
 labelName = Label(home, text = "Input Name:", font=("Arial", 10))
 labelName.grid(row=1, column=0, pady=0, padx=0)
@@ -66,7 +65,12 @@ currentMic.grid(row=3, column=4, pady=0, padx=0)
 timeEntry = Entry(home, width=30)
 timeEntry.grid(row=2, column=2, pady=5, padx=0)
 
+#this entry displays the previous saved name
 entry = Entry(home, width=30)
+file_path = open("PythonCodes\\GUI\\Settings.txt", "rt")
+newVar = file_path.readlines()
+previous = str(newVar[0])
+entry.insert(-1, f"{previous}")
 entry.grid(row=1, column=2, pady=0, padx=0)
 
 #defining the dropdown menu
@@ -90,7 +94,7 @@ def confirmMic():
   user_input = selected_option.get()
   currentMic.config(text="Saved!")
   with open("PythonCodes\\GUI\\Settings.txt", "r") as file:
-    lines = file.readlines()
+    lines = file.readline()
     file.close()
   lineToPrint = 2
   lines[lineToPrint] = user_input + "\n"
