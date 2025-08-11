@@ -191,6 +191,9 @@ while running:
         for box in textboxes:
             box.handle_event(event)
 
+        labels = [box.inputtext for box in textboxes]
+        print(labels)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             if button_rect.collidepoint(event.pos):
                 start_y = 40
