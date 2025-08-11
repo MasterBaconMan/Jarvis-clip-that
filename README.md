@@ -19,6 +19,26 @@ The "WebSocket Server password" is not required but will be explained later.
 
 The "Select Microphone" is a dropdown where you can choose your input microphone device
 
+## Commandands:
+
+### To use commands, say the name that you input (default jarvis) and then the command into your selected audio device
+"Clip" - Activates replay buffer or saves replay buffer in OBS (OBS must be running)
+
+"Start Recording" - Starts an OBS recording (OBS must be running)
+
+"Stop Reocording" - Stops an OBS recording (OBS must be running)
+
+"Quit" - Quits the program
+
+"Increase Volume" - Raises system volume (You can specify a number)
+
+"Decrease Volume" - Lowers system volume (You can specify a number)
+
+"Play" - Pauses/Unpauses media last selected
+
+"Pause" - Pauses/Unpauses media last selected
+
+"Skip" - Skips media selected
 
 
 ## OBS Setup:
@@ -45,26 +65,4 @@ To use the commands with OBS, some settings must be enabled first.
 ![alt text](https://github.com/MasterBaconMan/audio-air-fryer/blob/main/images%20for%20README/Step%206.PNG "Step 5")
 
 Video settings are altered in OBS.
-
-
-
-## Commandands:
-"Clip" - Activates replay buffer or saves replay buffer in OBS (OBS must be running)
-
-"Start Recording" - Starts an OBS recording (OBS must be running)
-
-"Stop Reocording" - Stops an OBS recording (OBS must be running)
-
-"Quit" - Quits the program
-
-"Increase Volume" - Raises system volume (You can specify a number)
-
-"Decrease Volume" - Lowers system volume (You can specify a number)
-
-"Play" - Pauses/Unpauses media last selected
-
-"Pause" - Pauses/Unpauses media last selected
-
-"Skip" - Skips media selected
-
 
