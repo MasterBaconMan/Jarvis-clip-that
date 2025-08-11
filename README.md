@@ -1,7 +1,7 @@
 # Jarvis-clip-that
 
 ## Introduction
-This is an OBS and macro tool.
+Jarvis-clip-that is a voice activated OBS and macro tool.
 
 To use this tool, you must have OBS installed. To download OBS, go here: <https://obsproject.com/download> .
 
