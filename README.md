@@ -40,6 +40,24 @@ The "Select Microphone" is a dropdown where you can choose your input microphone
 
 "Skip" - Skips media selected
 
+### Macros:
+
+To use a macro, click on the "Macro add/edit" button.
+
+![alt text](https://github.com/MasterBaconMan/Jarvis-clip-that/blob/main/images%20for%20README/macro.PNG)
+
+This will open up a seperate window where you can add a name to the macro (This is the name you will say out loud to excecute the command for the macro),
+and the "..." where you can add the keys to be pressed in the macro. Clicl the "save" button after typing in your desired keys.
+
+![alt text](https://github.com/MasterBaconMan/Jarvis-clip-that/blob/main/images%20for%20README/macro%20example1.PNG)
+
+![alt text](https://github.com/MasterBaconMan/Jarvis-clip-that/blob/main/images%20for%20README/macro%20example2.PNG)
+
+You can press the "run macro" button to test your macro
+
+
+Currently custom macros do not save between instances, but that is a feature that will be worked on later.
+
 
 ## OBS Setup:
 To use the commands with OBS, some settings must be enabled first.

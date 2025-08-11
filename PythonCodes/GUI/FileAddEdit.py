@@ -5,6 +5,23 @@ import pyautogui
 import time
 import json
 
+def readStatus():
+    with open("PythonCodes\\Jarvis\\Status.txt", "rt") as f:
+        f.readline()
+        line = f.readline()
+        f.close()
+        return line
+
+def run_typing_record(typing_record):
+    for key, delay in typing_record:
+        time.sleep(delay)
+        if key == '\n':
+            pyautogui.press('enter')
+        elif key == '\b':
+            pyautogui.press('backspace')
+        else:
+            pyautogui.write(key)
+
 pygame.init() #initializes pygame
 pygame.key.set_repeat(300, 50) #for repeating characters when key is held down
 screen = pygame.display.set_mode((650, 500))
@@ -174,7 +191,17 @@ def draw_text(text, font, text_color, x, y): #function for text/label
 
 #---------MAIN LOOP----------
 running = True
+last_macro = None
 while running:
+    current_macro = readStatus().strip()
+    if current_macro != last_macro:
+        for box in textboxes:
+            if box.inputtext.strip().lower() == current_macro.lower():
+                run_typing_record(box.typing_record)
+                last_macro = readStatus()
+                last_macro = None
+                break
+
     screen.fill(background_color)
 
     draw_text("Add or Edit:", text_font, (255, 255, 255), 10, 10)
@@ -192,7 +219,9 @@ while running:
             box.handle_event(event)
 
         labels = [box.inputtext for box in textboxes]
-        print(labels)
+        with open("PythonCodes\\GUI\\macro.txt", "wt") as f:
+                f.write(str(labels))
+        # print(labels)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if button_rect.collidepoint(event.pos):
@@ -206,7 +235,7 @@ while running:
                     new_box = TextBox(10, last_y, 200, 32, text_font)
                     textboxes.append(new_box)
                     button_rect.y = new_box.rect.bottom + 10
-
+        
             for i, box in enumerate(textboxes):
                 if box.edit_button.collidepoint(event.pos):
                     updated_macro, updated_record = open_text_editor(box.macro_text, box.typing_record)

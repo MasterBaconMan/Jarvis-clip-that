@@ -1,4 +1,3 @@
-import subprocess
 import clip
 import pyautogui
 
@@ -6,7 +5,10 @@ import pyautogui
 # Function to read from speech to text file
 def readfile():
     file = open("PythonCodes\\Speech\\text.txt", "rt")
-    return file.readlines()
+    words = file.readlines()
+    file.close()
+    return words
+
 
 # Converts a string into an integer
 def text2int(numword):
@@ -50,12 +52,25 @@ def wordlistAddition(wordlist):
     return value
 
 
+def readMacro():
+    with open("PythonCodes\\GUI\\macro.txt", "rt") as f:
+        lines = f.readlines()
+        lines = str(lines)
+        lines = lines.replace("'", "")
+        lines = lines.replace("[", "")
+        lines = lines.replace("]", "")
+        lines = lines.replace("\"", "")
+        lines = lines.split(",")
+        return lines
+
+
 # Function to read name from settings file
 
 file = open("PythonCodes\\GUI\\Settings.txt")
 settings = file.readlines()
 name = str(settings[0])
 name = name.lower()
+print(name)
 # print(settings, name)
 file.close()
 
@@ -78,6 +93,16 @@ while(1):
     words.split(" ")
     #print(words)
 
+    # Updats the macrolist
+    macrolist = readMacro()
+    # print(macrolist)
+    for count,item in enumerate(macrolist):
+        if (item == ""):
+            macrolist.pop(count)
+        if (item == " "):
+            macrolist.pop(count)
+    # print(macrolist)
+
     #resets the wordlist if more than 10 words are stored
     if len(wordlist) > 10:
         wordlist = []
@@ -97,7 +122,7 @@ while(1):
         if "quit" in wordlist:
             print("quit") 
             with open("PythonCodes\\Jarvis\\Status.txt", "wt") as f:
-                f.write("quit")
+                f.writelines("quit")
             break
 
         
@@ -163,6 +188,22 @@ while(1):
                 print(f"decreasing volume by {loop * 2}")
                 wordlist = []
 
+
+        for count,each in enumerate(macrolist):
+            if each in wordlist:
+                    print("running in wordlist")
+                    with open("PythonCodes\\Jarvis\\Status.txt", "r") as f1:
+                        line = f1.readlines()
+                        f1.close
+                    try:
+                        line[1] = each + "\n"
+                    except:
+                        line.append(each + "\n")
+                        
+                    with open("PythonCodes\\Jarvis\\Status.txt", "w") as f1:
+                        f1.writelines(line)
+                        f1.close
+                    wordlist = []
 
         #for testing
         print(wordlist)

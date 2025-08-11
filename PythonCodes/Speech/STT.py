@@ -44,7 +44,7 @@ while(1):
 
     # Updates the microphone setting if it is changed
     mic_index = micSetting()
-    print(mic_index)
+    # print(mic_index)
     try:
         if mic_index.isdigit() == False:
             mic_index = None

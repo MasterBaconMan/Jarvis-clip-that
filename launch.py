@@ -1,7 +1,8 @@
 import subprocess
 
 with open("PythonCodes\\Jarvis\\Status.txt", "wt") as f:
-    f.write("start")
+    lines = ["start", "none"]
+    f.writelines(lines)
 
 # installs packages if not already installed
 install_obs = subprocess.run(["pip","install","obs-websocket-py"])
