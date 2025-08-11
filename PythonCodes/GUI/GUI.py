@@ -72,6 +72,7 @@ newVar = file_path.readlines()
 previous = str(newVar[0])
 entry.insert(-1, f"{previous}")
 entry.grid(row=1, column=2, pady=0, padx=0)
+file_path.close()
 
 #defining the dropdown menu
 selected_option = StringVar()
@@ -94,7 +95,7 @@ def confirmMic():
   user_input = selected_option.get()
   currentMic.config(text="Saved!")
   with open("PythonCodes\\GUI\\Settings.txt", "r") as file:
-    lines = file.readline()
+    lines = file.readlines()
     file.close()
   lineToPrint = 2
   lines[lineToPrint] = user_input + "\n"
