@@ -8,6 +8,46 @@ def readfile():
     file = open("PythonCodes\\Speech\\text.txt", "rt")
     return file.readlines()
 
+# Converts a string into an integer
+def text2int(numword):
+    units = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen",]
+    
+    tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+
+    if ((numword in units) or (numword in tens)) == False:
+        try:
+             numword = int(numword)
+        except:
+            pass
+        if (isinstance(numword, int)):
+            return numword
+    else:
+        if numword in tens:
+            for ten in enumerate(tens):
+                if ten[1] == numword:
+                    return int((ten[0]*10))
+        if numword in units:
+            for ones in enumerate(units):
+                if ones[1] == numword:
+                    return int((ones[0]))
+
+# Gets the sum of a list
+def wordlistAddition(wordlist):
+    addList = []
+    value = 0
+    for word in wordlist:
+        if (text2int(word) != None):
+            addList.append(text2int(word))
+
+    if len(addList) > 0:
+        for num in addList:
+            value = value + num
+    
+    if len(addList) == 0:
+        value = 6
+    return value
 
 
 # Function to read name from settings file
@@ -16,7 +56,7 @@ file = open("PythonCodes\\GUI\\Settings.txt")
 settings = file.readlines()
 name = str(settings[0])
 name = name.lower()
-print(settings, name)
+# print(settings, name)
 file.close()
 
 def stop():
@@ -73,7 +113,7 @@ while(1):
                     clip.start_recording()
                     wordlist = []
         except:
-            print("Incorrect Password")
+            print("Incorrect Password or OBS not running")
 
 
 
@@ -85,7 +125,7 @@ while(1):
                 clip.clip()
                 wordlist = []
         except:
-            print("Incorrect Password")
+            print("Incorrect Password or OBS not running")
         
 
         # Media control functions
@@ -104,21 +144,23 @@ while(1):
         # Volume control function
         if "volume" in wordlist:
             if "increase" in wordlist:
-                loop = 5
-                for word in wordlist:
-                    if word.isdigit():
-                        loop = word
+                
+                loop = int(wordlistAddition(wordlist)/2)
+
+                print(loop)
+
                 for i in range(loop):
                     pyautogui.press('volumeup')
+                print(f"increasing volume by {loop*2}")
                 wordlist = []
 
             if "decrease" in wordlist:
-                loop = 5
-                for word in wordlist:
-                    if word.isdigit():
-                        loop = word
+                
+                loop = int(wordlistAddition(wordlist)/2)
+
                 for i in range(loop):
                     pyautogui.press('volumedown')
+                print(f"decreasing volume by {loop * 2}")
                 wordlist = []
 
 
