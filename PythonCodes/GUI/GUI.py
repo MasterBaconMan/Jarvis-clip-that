@@ -23,7 +23,7 @@ filter_out_word = "Speakers"
 
 filtered_mics = {key: value for key, value in res.items() if (search_word in value) and (filter_out_word not in value)}
 
-print(str(filtered_mics))
+# print(str(filtered_mics))
 
 # Function to read from speech to text file
 
@@ -50,7 +50,7 @@ labelName.grid(row=1, column=0, pady=0, padx=0)
 currentName = Label(home, text = "", font=("Arial", 10))
 currentName.grid(row=1, column=4, pady=0, padx=0)
 
-inputTime = Label(home, text = "Input WebSocket Server password:", font=("Arial", 10))
+inputTime = Label(home, text = "WebSocket Server password:", font=("Arial", 10))
 inputTime.grid(row=2, column=0, pady=5, padx=0)
 
 currentTime = Label(home, text = "", font=("Arial", 10))
@@ -73,8 +73,17 @@ entry.grid(row=1, column=2, pady=0, padx=0)
 selected_option = StringVar()
 selected_option.set(drop_down_options[0])
 
-dropdown = ttk.Combobox(home, textvariable=selected_option, values=drop_down_options, state="readonly")
+dropdown = ttk.Combobox(home, textvariable=selected_option, values=drop_down_options, state="readonly", width=27)
 dropdown.grid(row=3, column=2, pady=10)
+
+# function that opens the Macro add/edit file
+def macro():
+  macroevent = subprocess.Popen(["python", "PythonCodes/GUI/FileAddEdit.py"])
+
+# A button that opens the Macro add/edit file when clicked
+macroButton = Button(home, text = "Macro add/edit", font=("Arial", 10), command = macro)
+macroButton.grid(row = 6, column=2)
+
 
 #every current function that each button does
 def confirmMic():
